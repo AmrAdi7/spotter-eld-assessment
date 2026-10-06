@@ -123,6 +123,10 @@ const mapLegend = [
   { type: 'dropoff', label: 'Dropoff' },
 ]
 
+function formatHours(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(2)
+}
+
 function App() {
   const [form, setForm] = useState<TripForm>(initialForm)
   const [plan, setPlan] = useState<TripPlan | null>(null)
@@ -278,7 +282,7 @@ function App() {
                           <div>
                             <strong>{event.label}</strong>
                             <p>
-                              {event.startClock}-{event.endClock} · {event.hours} hr
+                              {event.startClock}-{event.endClock} · {formatHours(event.hours)} hr
                               {event.miles ? ` · ${Math.round(event.miles)} mi` : ''}
                             </p>
                           </div>
@@ -299,7 +303,7 @@ function App() {
                     <article className="log-card" key={log.day}>
                       <div className="log-card-header">
                         <h3>Day {log.day}</h3>
-                        <span>{log.total} hr</span>
+                        <span>{formatHours(log.total)} hr</span>
                       </div>
                       <LogBar label="Off duty" value={log.offDuty} total={log.total} />
                       <LogBar label="Sleeper berth" value={log.sleeperBerth} total={log.total} />
@@ -418,7 +422,7 @@ function LogBar({ label, value, total }: { label: string; value: number; total: 
     <div className="log-row">
       <div className="log-label">
         <span>{label}</span>
-        <strong>{value} hr</strong>
+        <strong>{formatHours(value)} hr</strong>
       </div>
       <div className="bar-track">
         <span style={{ width }}></span>
@@ -488,11 +492,11 @@ function EldSheet({ log }: { log: DailyLog }) {
 
       <div className="eld-footer">
         <div className="eld-totals">
-          <span>Off Duty: {log.offDuty} hr</span>
-          <span>Sleeper: {log.sleeperBerth} hr</span>
-          <span>Driving: {log.driving} hr</span>
-          <span>On Duty: {log.onDuty} hr</span>
-          <strong>Total: {log.totalHours} hr</strong>
+          <span>Off Duty: {formatHours(log.offDuty)} hr</span>
+          <span>Sleeper: {formatHours(log.sleeperBerth)} hr</span>
+          <span>Driving: {formatHours(log.driving)} hr</span>
+          <span>On Duty: {formatHours(log.onDuty)} hr</span>
+          <strong>Total: {formatHours(log.totalHours)} hr</strong>
         </div>
         <div className="remarks">
           <h3>Remarks</h3>
